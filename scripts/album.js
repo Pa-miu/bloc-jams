@@ -26,7 +26,7 @@ var createSongRow = function(songNumber, songName, songLength) {
 	
 	var $row = $(template);
 	
-	var clickHandler = function() {
+	var clickHandler = function songElementClick() {
 		var songNum = parseInt($(this).attr("data-song-number"));
 		
 		if (currentlyPlayingSongNumber !== null) {			// If a song is already selected
@@ -35,27 +35,32 @@ var createSongRow = function(songNumber, songName, songLength) {
 			$currentlyPlayingElement.html($currentlyPlayingElement.attr('data-song-number'));
 		}
 		
+		console.log("clicked");
 		if (currentlyPlayingSongNumber !== songNum) { 		// If a different song is selected
-			setSong(songNum);								// Set new song
 			$(this).html(pauseButtonTemplate);				// Toggle pause icon
-			updatePlayerBarSong();							// Update player bar
+			setSong(songNum);								// Set new song
 			currentSoundFile.play();						// Play the new song file
+			updatePlayerBarSong();							// Update player bar
+			console.log("Switched songs");
 			updateSeekBarWhileSongPlays();
 		}
 		else if (currentlyPlayingSongNumber === songNum) {	// Or if the same song is reselected
-			$(this).html(playButtonTemplate);				// Reset the icon template
-			$('.left-controls .play-pause').html(playerBarPlayButton);	// Reset the player bar play icon
+			console.log("Toggled songs");
 			if (currentSoundFile.isPaused()) {
 				currentSoundFile.play();
+				$(this).html(playButtonTemplate);				// Reset the icon template
+				$('.left-controls .play-pause').html(playerBarPlayButton);	// Reset the player bar play icon
 				updateSeekBarWhileSongPlays()
 			}
 			else {
 				currentSoundFile.pause();
+				$(this).html(pauseButtonTemplate);				// Reset the icon template
+				$('.left-controls .play-pause').html(playerBarPauseButton);	// Reset the player bar play icon
 			}
 		} 
 	};
 
-	var onHover = function(event) {
+	var onHover = function songElementOnHover(event) {
 		var $hoverSongItem = $(this).find(".song-item-number");
 		var hoverSongNum = parseInt($hoverSongItem.attr("data-song-number"));
 		
@@ -64,7 +69,7 @@ var createSongRow = function(songNumber, songName, songLength) {
 		}
 	}
 	
-	var offHover = function(event) {
+	var offHover = function songElementOffHover(event) {
 		var $leaveSongItem = $(this).find(".song-item-number");
 		var leaveSongNum = parseInt($leaveSongItem.attr("data-song-number"));
 		
@@ -74,7 +79,7 @@ var createSongRow = function(songNumber, songName, songLength) {
 	}
 	
 	$row.find(".song-item-number").click(clickHandler);
-	$row.hover(onHover, offHover);
+	//$row.hover(onHover, offHover);
 	
 	return $row;
 };
