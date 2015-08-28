@@ -44,18 +44,19 @@ var createSongRow = function(songNumber, songName, songLength) {
 			console.log("Switched songs");
 			updateSeekBarWhileSongPlays();
 		}
-		else if (currentlyPlayingSongNumber === songNum) {	// Or if the same song is reselected
-			console.log("Toggled songs");
+		else if (currentlyPlayingSongNumber === songNum) {	// Or if the same song is reselected		
 			if (currentSoundFile.isPaused()) {
 				currentSoundFile.play();
-				$(this).html(playButtonTemplate);				// Reset the icon template
-				$('.left-controls .play-pause').html(playerBarPlayButton);	// Reset the player bar play icon
+				console.log("Toggled play");
+				$(this).html(pauseButtonTemplate);				// Reset the icon template
+				$('.left-controls .play-pause').html(playerBarPauseButton);	// Reset the player bar play icon
 				updateSeekBarWhileSongPlays()
 			}
 			else {
 				currentSoundFile.pause();
-				$(this).html(pauseButtonTemplate);				// Reset the icon template
-				$('.left-controls .play-pause').html(playerBarPauseButton);	// Reset the player bar play icon
+				console.log("Toggled pause");
+				$(this).html(playButtonTemplate);				// Reset the icon template
+				$('.left-controls .play-pause').html(playerBarPlayButton);	// Reset the player bar play icon
 			}
 		} 
 	};
