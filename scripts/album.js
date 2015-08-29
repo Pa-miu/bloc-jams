@@ -15,6 +15,7 @@ var $previousButton = $(".left-controls .previous");
 var $nextButton = $(".left-controls .next");
 var $playButton = $(".left-controls .play-pause");
 
+
 /* Album */
 var createSongRow = function(songNumber, songName, songLength) {
 	var template = 
@@ -26,36 +27,34 @@ var createSongRow = function(songNumber, songName, songLength) {
 	
 	var $row = $(template);
 	
+	/* Event handlers*/
 	var clickHandler = function songElementClick() {
-		var songNum = parseInt($(this).attr("data-song-number"));
+		var $songItem = $(this);
+		var songNum = parseInt($songItem.attr("data-song-number"));
 		
 		if (currentlyPlayingSongNumber !== null) {			// If a song is already selected
 			// Reset current song icon to song number
 			var $currentlyPlayingElement = $("[data-song-number='" + currentlyPlayingSongNumber + "']");
-			$currentlyPlayingElement.html($currentlyPlayingElement.attr('data-song-number'));
+			$currentlyPlayingElement.html(currentlyPlayingSongNumber);
 		}
 		
-		console.log("clicked");
 		if (currentlyPlayingSongNumber !== songNum) { 		// If a different song is selected
-			$(this).html(pauseButtonTemplate);				// Toggle pause icon
+			$songItem.html(pauseButtonTemplate);				// Toggle pause icon
 			setSong(songNum);								// Set new song
 			currentSoundFile.play();						// Play the new song file
 			updatePlayerBarSong();							// Update player bar
-			console.log("Switched songs");
 			updateSeekBarWhileSongPlays();
 		}
 		else if (currentlyPlayingSongNumber === songNum) {	// Or if the same song is reselected		
 			if (currentSoundFile.isPaused()) {
 				currentSoundFile.play();
-				console.log("Toggled play");
-				$(this).html(pauseButtonTemplate);				// Reset the icon template
+				$songItem.html(pauseButtonTemplate);				// Reset the icon template
 				$('.left-controls .play-pause').html(playerBarPauseButton);	// Reset the player bar play icon
 				updateSeekBarWhileSongPlays()
 			}
 			else {
 				currentSoundFile.pause();
-				console.log("Toggled pause");
-				$(this).html(playButtonTemplate);				// Reset the icon template
+				$songItem.html(playButtonTemplate);				// Reset the icon template
 				$('.left-controls .play-pause').html(playerBarPlayButton);	// Reset the player bar play icon
 			}
 		} 
@@ -69,7 +68,7 @@ var createSongRow = function(songNumber, songName, songLength) {
 			$hoverSongItem.html(playButtonTemplate);
 		}
 	}
-	
+
 	var offHover = function songElementOffHover(event) {
 		var $leaveSongItem = $(this).find(".song-item-number");
 		var leaveSongNum = parseInt($leaveSongItem.attr("data-song-number"));
@@ -80,7 +79,7 @@ var createSongRow = function(songNumber, songName, songLength) {
 	}
 	
 	$row.find(".song-item-number").click(clickHandler);
-	//$row.hover(onHover, offHover);
+	$row.hover(onHover, offHover);
 	
 	return $row;
 };
@@ -308,10 +307,6 @@ var setTotalTimeInPlayerBar = function(totalTime) {
 }
 
 var parseTimeCode = function(timeInSeconds) {
-	/*
-	var formattedTime = buzz.toTimer(timeInSeconds);
-	return formattedTime;
-	*/
 	var minutes = Math.floor(timeInSeconds/60);
 	var seconds = Math.floor(timeInSeconds - (minutes * 60));
 	var formattedTime = minutes + ":";
