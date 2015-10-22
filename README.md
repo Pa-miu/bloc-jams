@@ -1,3 +1,4 @@
-Bloc Jams Assignment 5 - Basic HTML Structure
 
-Ok, ok, I'm removing that. Now all good!
+## BlocJams
+
+A rudimentary [Spotify](https://www.spotify.com/us/) clone I made at [Bloc](https://www.bloc.io/) to learn HTML/CSS and JavaScript.

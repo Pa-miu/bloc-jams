@@ -15,10 +15,8 @@ $(window).load(function() {
 	if ($(window).height() > 950) {
 		animatePoints();
 	}
-	
 	var magicScrollNum = 950 - $(window).height() + 50;
 	$(window).scroll(function(event) {
-		console.log($(window).scrollTop());
 		if ($(window).scrollTop() >= magicScrollNum) {
 			animatePoints();
 		}
